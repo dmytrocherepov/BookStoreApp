@@ -1,6 +1,6 @@
 package com.example.bookstoreapp.exception;
 
-public class DataProcessingException extends RuntimeException{
+public class DataProcessingException extends RuntimeException {
     public DataProcessingException(String message) {
         super(message);
     }

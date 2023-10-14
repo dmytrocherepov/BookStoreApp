@@ -3,9 +3,9 @@ package com.example.bookstoreapp.service.impl;
 import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.repository.BookRepository;
 import com.example.bookstoreapp.service.BookService;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 

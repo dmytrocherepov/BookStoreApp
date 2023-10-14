@@ -3,10 +3,9 @@ package com.example.bookstoreapp.repository.impl;
 import com.example.bookstoreapp.exception.DataProcessingException;
 import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.repository.BookRepository;
+import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
@@ -23,18 +22,18 @@ public class BookRepositoryImpl implements BookRepository {
             sessionFactory.inTransaction(s -> s.persist(book));
             return book;
         } catch (Exception e) {
-            throw new DataProcessingException("Can't save a book" + book , e);
+            throw new DataProcessingException("Can't save a book" + book, e);
         }
     }
 
     @Override
     public List<Book> findAll() {
         try {
-          return   sessionFactory.fromSession(
-                  s -> s.createQuery("FROM Book" , Book.class ).getResultList()
-          );
+            return sessionFactory.fromSession(
+                    s -> s.createQuery("FROM Book", Book.class).getResultList()
+            );
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get books" , e);
+            throw new DataProcessingException("Can't get books", e);
         }
     }
 }
