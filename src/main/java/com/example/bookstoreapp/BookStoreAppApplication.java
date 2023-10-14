@@ -1,7 +1,6 @@
 package com.example.bookstoreapp;
 
 import com.example.bookstoreapp.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,12 +11,19 @@ import java.math.BigDecimal;
 
 @SpringBootApplication
 public class BookStoreAppApplication {
+
+	private final BookService bookService;
+
+	public BookStoreAppApplication(BookService bookService) {
+		this.bookService = bookService;
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreAppApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(BookService bookService) {
+	public CommandLineRunner commandLineRunner() {
 			return args ->  {
 				Book book = new Book();
 				book.setTitle("Clean Code");
