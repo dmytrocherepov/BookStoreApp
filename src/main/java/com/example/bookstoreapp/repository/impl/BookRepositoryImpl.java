@@ -1,9 +1,11 @@
 package com.example.bookstoreapp.repository.impl;
 
 import com.example.bookstoreapp.exception.DataProcessingException;
+import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.repository.BookRepository;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +36,15 @@ public class BookRepositoryImpl implements BookRepository {
             );
         } catch (Exception e) {
             throw new DataProcessingException("Can't get books", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try {
+            return sessionFactory.fromSession(s -> Optional.ofNullable(s.find(Book.class, id)));
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can't find the book with id : " + id);
         }
     }
 }
