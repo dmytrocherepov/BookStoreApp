@@ -1,15 +1,15 @@
 package com.example.bookstoreapp.dto;
 
 import java.math.BigDecimal;
-import lombok.Data;
 
-@Data
-public class CreateBookRequestDto {
-    private Long id;
-    private String title;
-    private String author;
-    private String isbn;
-    private BigDecimal price;
-    private String description;
-    private String coverImage;
+public record CreateBookRequestDto(
+        Long id,
+        String title,
+        String author,
+        String isbn,
+        BigDecimal price,
+        String description,
+        String coverImage
+) {
 }
+
