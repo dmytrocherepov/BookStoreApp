@@ -1,14 +1,17 @@
 package com.example.bookstoreapp.service.impl;
 
 import com.example.bookstoreapp.dto.BookDto;
+import com.example.bookstoreapp.dto.BookSearchParameters;
 import com.example.bookstoreapp.dto.CreateBookRequestDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.mapper.BookMapper;
 import com.example.bookstoreapp.model.Book;
-import com.example.bookstoreapp.repository.BookRepository;
+import com.example.bookstoreapp.repository.book.BookRepository;
+import com.example.bookstoreapp.repository.book.BookSpecificationBuilder;
 import com.example.bookstoreapp.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +20,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
@@ -38,5 +42,25 @@ public class BookServiceImpl implements BookService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't get book with id " + id)
                 );
+    }
+
+    @Override
+    public BookDto updateBookById(CreateBookRequestDto requestDto, Long id) {
+        Book book = bookMapper.toBook(requestDto);
+        book.setId(id);
+        return bookMapper.toDto(bookRepository.save(book));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookDto> search(BookSearchParameters params) {
+        Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
+        return bookRepository.findAll(bookSpecification).stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
