@@ -4,11 +4,11 @@ import com.example.bookstoreapp.dto.BookDto;
 import com.example.bookstoreapp.dto.BookSearchParameters;
 import com.example.bookstoreapp.dto.CreateBookRequestDto;
 import com.example.bookstoreapp.service.BookService;
-import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Book management " , description = "Endpoints for managing books")
+@Tag(name = "Book management ", description = "Endpoints for managing books")
 @RestController
 @RequestMapping("/books")
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class BookController {
             summary = "Get all books",
             description = "Get a list of all available books on page with size = 5"
     )
-    public List<BookDto> getAll(@PageableDefault(page = 0 , size = 5) Pageable pageable) {
+    public List<BookDto> getAll(@PageableDefault(page = 0, size = 5) Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
