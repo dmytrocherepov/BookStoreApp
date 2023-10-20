@@ -4,6 +4,8 @@ import com.example.bookstoreapp.dto.BookDto;
 import com.example.bookstoreapp.dto.BookSearchParameters;
 import com.example.bookstoreapp.dto.CreateBookRequestDto;
 import com.example.bookstoreapp.service.BookService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,19 +31,19 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public BookDto getById(@PathVariable Long id) {
+    public BookDto getById(@PathVariable @Positive Long id) {
         return bookService.getById(id);
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @PutMapping("/{id}")
     public BookDto updateBookById(
-            @RequestBody CreateBookRequestDto requestDto,
-            @PathVariable Long id
+            @RequestBody @Valid CreateBookRequestDto requestDto,
+            @PathVariable @Positive Long id
     ) {
         return bookService.updateBookById(requestDto, id);
     }
@@ -53,7 +55,7 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    void deleteById(@PathVariable Long id) {
+    void deleteById(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 }
