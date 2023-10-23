@@ -4,6 +4,10 @@ import com.example.bookstoreapp.dto.BookDto;
 import com.example.bookstoreapp.dto.BookSearchParameters;
 import com.example.bookstoreapp.dto.CreateBookRequestDto;
 import com.example.bookstoreapp.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -38,12 +42,20 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
+    @Operation(
+            summary = "Get book by id",
+            description = "Get book by id if present"
+    )
     public BookDto getById(@PathVariable Long id) {
         return bookService.getById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @Operation(
+            summary = "Create a new book",
+            description = "Creates a new book"
+    )
     public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
@@ -75,7 +87,6 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable @Positive Long id) {
     @Operation(
             summary = "Delete a book",
             description = "Deletes a book with id if present"
