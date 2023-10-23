@@ -25,21 +25,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<BookDto> getAll() {
         return bookService.findAll();
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public BookDto getById(@PathVariable @Positive Long id) {
         return bookService.getById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public BookDto updateBookById(
             @RequestBody @Valid CreateBookRequestDto requestDto,
@@ -48,6 +52,7 @@ public class BookController {
         return bookService.updateBookById(requestDto, id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     public List<BookDto> searchBooks(BookSearchParameters searchParameters) {
         return bookService.search(searchParameters);
@@ -55,7 +60,7 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    void deleteById(@PathVariable @Positive Long id) {
+    public void deleteById(@PathVariable @Positive Long id) {
         bookService.deleteById(id);
     }
 }

@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,8 +27,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             WebRequest request
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList();
@@ -39,12 +36,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementException(EntityNotFoundException ex) {
-        BookApiException bookApiException = new BookApiException(
+        ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
                 ex.getMessage(),
-                NOT_FOUND,
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(bookApiException, NOT_FOUND);
+        return new ResponseEntity<>(errorResponseWrapper, NOT_FOUND);
     }
 
     private String getErrorMessage(ObjectError e) {
