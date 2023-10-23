@@ -4,10 +4,6 @@ import com.example.bookstoreapp.dto.BookDto;
 import com.example.bookstoreapp.dto.BookSearchParameters;
 import com.example.bookstoreapp.dto.CreateBookRequestDto;
 import com.example.bookstoreapp.service.BookService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @Operation(
             summary = "Get all books",
@@ -39,24 +36,19 @@ public class BookController {
         return bookService.findAll(pageable);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    @Operation(
-            summary = "Get book by id",
-            description = "Get book by id if present"
-    )
-    public BookDto getById(@PathVariable @Positive Long id) {
+    public BookDto getById(@PathVariable Long id) {
         return bookService.getById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    @Operation(
-            summary = "Create a new book",
-            description = "Creates a new book"
-    )
-    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     @Operation(
             summary = "Update book with id",
@@ -69,6 +61,7 @@ public class BookController {
         return bookService.updateBookById(requestDto, id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/search")
     @Operation(
             summary = "Search a book",
@@ -82,6 +75,7 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable @Positive Long id) {
     @Operation(
             summary = "Delete a book",
             description = "Deletes a book with id if present"

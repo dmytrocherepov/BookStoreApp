@@ -1,8 +1,8 @@
 package com.example.bookstoreapp.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,7 +18,7 @@ public record CreateBookRequestDto(
                 + "[- ]?[0-9X]$",
         message = "length must be 10 digits")
         String isbn,
-        @Min(value = 0)
+        @PositiveOrZero
         BigDecimal price,
         String description,
         String coverImage
