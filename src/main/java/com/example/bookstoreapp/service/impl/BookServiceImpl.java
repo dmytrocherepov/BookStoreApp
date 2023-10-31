@@ -1,8 +1,8 @@
 package com.example.bookstoreapp.service.impl;
 
-import com.example.bookstoreapp.dto.BookDto;
-import com.example.bookstoreapp.dto.BookSearchParameters;
-import com.example.bookstoreapp.dto.CreateBookRequestDto;
+import com.example.bookstoreapp.dto.book.BookDto;
+import com.example.bookstoreapp.dto.book.BookSearchParameters;
+import com.example.bookstoreapp.dto.book.CreateBookRequestDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.mapper.BookMapper;
 import com.example.bookstoreapp.model.Book;
