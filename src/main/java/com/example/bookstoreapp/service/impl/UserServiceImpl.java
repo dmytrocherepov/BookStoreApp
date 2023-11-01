@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto register(
             UserRegistrationRequestDto request
     ) throws RegistrationException {
-        if (userRepository.findByEmail(request.email()).isPresent()) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new RegistrationException("Email is already used");
         }
         User user = userMapper.toUser(request);
@@ -35,10 +35,6 @@ public class UserServiceImpl implements UserService {
         user.setRoles(new HashSet<>(Arrays.asList(
                 roleRepository.findRoleByName(RoleName.ROLE_USER)
         )));
-        user.setEmail(request.email());
-        user.setFirstName(request.firstName());
-        user.setLastName(request.lastName());
-        user.setShippingAddress(request.shippingAddress());
         userRepository.save(user);
         return userMapper.toUserResponseDto(user);
     }

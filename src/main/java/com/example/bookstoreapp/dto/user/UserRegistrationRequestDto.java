@@ -11,8 +11,14 @@ public record UserRegistrationRequestDto(
         @NotBlank
         @Size(min = 4, max = 50)
         String email,
+        @NotBlank
+        @Size(max = 50)
         String firstName,
+        @NotBlank
+        @Size(max = 50)
         String lastName,
+        @NotBlank
+        @Size(max = 50)
         String shippingAddress,
         @NotBlank
         @Size(min = 4, max = 50)
@@ -21,5 +27,4 @@ public record UserRegistrationRequestDto(
         @Size(min = 4, max = 50)
         String repeatPassword
 ) {
-
 }
