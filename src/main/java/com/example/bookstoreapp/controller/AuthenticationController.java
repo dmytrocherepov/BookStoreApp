@@ -7,6 +7,7 @@ import com.example.bookstoreapp.dto.user.UserResponseDto;
 import com.example.bookstoreapp.security.AuthenticationService;
 import com.example.bookstoreapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "User authorization/registration",
+        description = "Endpoint for user registration and authorization")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
