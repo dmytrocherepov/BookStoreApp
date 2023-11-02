@@ -35,7 +35,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(body, headers, status);
     }
 
-    @ExceptionHandler(value = EntityNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementException(EntityNotFoundException ex) {
         ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
                 ex.getMessage(),
@@ -44,7 +44,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(errorResponseWrapper, NOT_FOUND);
     }
 
-    @ExceptionHandler(value = RegistrationException.class)
+    @ExceptionHandler(RegistrationException.class)
     protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
         ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
                 ex.getMessage(),

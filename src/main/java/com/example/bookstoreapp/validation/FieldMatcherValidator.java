@@ -11,8 +11,8 @@ public class FieldMatcherValidator implements ConstraintValidator<FieldMatch,Obj
     private String fieldMatch;
 
     public void initialize(FieldMatch fieldMatch) {
-        this.field = fieldMatch.field();
-        this.fieldMatch = fieldMatch.fieldMatch();
+        this.field = fieldMatch.field()[0];
+        this.fieldMatch = fieldMatch.field()[1];
     }
 
     @Override
