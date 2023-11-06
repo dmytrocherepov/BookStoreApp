@@ -1,5 +1,6 @@
 package com.example.bookstoreapp.exception;
 
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.time.LocalDateTime;
@@ -34,13 +35,22 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(body, headers, status);
     }
 
-    @ExceptionHandler(value = EntityNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> handleNoSuchElementException(EntityNotFoundException ex) {
         ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
                 ex.getMessage(),
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseWrapper, NOT_FOUND);
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    protected ResponseEntity<Object> handleRegistrationException(RegistrationException ex) {
+        ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseWrapper, CONFLICT);
     }
 
     private String getErrorMessage(ObjectError e) {
