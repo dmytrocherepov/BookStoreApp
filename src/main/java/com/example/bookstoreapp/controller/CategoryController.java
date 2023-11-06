@@ -74,8 +74,9 @@ public class CategoryController {
     )
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public CategoryResponseDto updateCategory(@PathVariable @Positive Long id,
-                                              @Valid @RequestBody CategoryRequestDto categoryDto) {
+    public CategoryResponseDto updateCategory(
+            @PathVariable @Positive Long id,
+            @Valid @RequestBody CategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
@@ -88,7 +89,6 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable @Positive Long id) {
         categoryService.deleteById(id);
-
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
