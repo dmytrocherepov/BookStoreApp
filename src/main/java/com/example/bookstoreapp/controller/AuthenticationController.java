@@ -7,7 +7,6 @@ import com.example.bookstoreapp.dto.user.UserResponseDto;
 import com.example.bookstoreapp.security.AuthenticationService;
 import com.example.bookstoreapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
