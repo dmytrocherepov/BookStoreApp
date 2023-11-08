@@ -1,4 +1,4 @@
-package com.example.bookstoreapp.dto.shoppingCart;
+package com.example.bookstoreapp.dto.shoppingcart;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.bookstoreapp.mapper;
 
-import com.example.bookstoreapp.dto.shoppingCart.CartDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartDto;
 import com.example.bookstoreapp.model.ShoppingCart;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

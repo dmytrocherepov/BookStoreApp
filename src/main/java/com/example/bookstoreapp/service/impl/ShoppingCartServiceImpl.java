@@ -1,10 +1,9 @@
 package com.example.bookstoreapp.service.impl;
 
-import java.util.HashSet;
-import com.example.bookstoreapp.dto.shoppingCart.CartDto;
-import com.example.bookstoreapp.dto.shoppingCart.CartItemDto;
-import com.example.bookstoreapp.dto.shoppingCart.CartItemRequestDto;
-import com.example.bookstoreapp.dto.shoppingCart.CartItemUpdateDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemRequestDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.mapper.CartItemMapper;
 import com.example.bookstoreapp.mapper.ShoppingCartMapper;
@@ -12,11 +11,12 @@ import com.example.bookstoreapp.model.CartItem;
 import com.example.bookstoreapp.model.ShoppingCart;
 import com.example.bookstoreapp.model.User;
 import com.example.bookstoreapp.repository.book.BookRepository;
-import com.example.bookstoreapp.repository.shoppingCart.CartItemRepository;
-import com.example.bookstoreapp.repository.shoppingCart.ShoppingCartRepository;
+import com.example.bookstoreapp.repository.shoppingcart.CartItemRepository;
+import com.example.bookstoreapp.repository.shoppingcart.ShoppingCartRepository;
 import com.example.bookstoreapp.repository.user.UserRepository;
 import com.example.bookstoreapp.service.ShoppingCartService;
 import jakarta.transaction.Transactional;
+import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-
     private final UserRepository userRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
@@ -45,18 +44,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItem.setBook(bookRepository.findById(requestDto.bookId()).orElseThrow(
                 () -> new EntityNotFoundException("No such book")
         ));
-        cartItem.setShoppingCart(getUserCart());
+        ShoppingCart userCart = getUserCart();
+        cartItem.setShoppingCart(userCart);
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
 
+    @Transactional
     @Override
     public CartItemDto updateCartItem(CartItemUpdateDto updateDto, Long itemId) {
         ShoppingCart userCart = getUserCart();
-        CartItem cartItem = cartItemRepository.findCartItemByIdAndShoppingCart(itemId, userCart).orElseThrow(
-                () -> new EntityNotFoundException("No such cartItem")
-        );
+        CartItem cartItem = cartItemRepository
+                .findCartItemByIdAndShoppingCart(itemId, userCart)
+                .orElseThrow(() -> new EntityNotFoundException("No such cartItem"));
         cartItem.setQuantity(updateDto.quantity());
-      return cartItemMapper.toDto(cartItemRepository.save(cartItem));
+        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
 
     @Override
@@ -69,7 +70,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         User user = userRepository.findByEmail(username).orElseThrow(
                 () -> new EntityNotFoundException("No such user")
         );
-       return shoppingCartRepository.findShoppingCartByUser(user).orElseGet(() -> {
+        return shoppingCartRepository.findShoppingCartByUserId(user.getId()).orElseGet(() -> {
             ShoppingCart shoppingCart = new ShoppingCart();
             shoppingCart.setUser(user);
             shoppingCart.setCartItems(new HashSet<>());
