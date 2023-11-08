@@ -30,11 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-
     private final CategoryService categoryService;
     private final BookService bookService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Create a category",
             description = "Creates a new category"
@@ -45,7 +44,7 @@ public class CategoryController {
         return categoryService.save(categoryDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(
             summary = "Get all categories",
             description = "Gives a list of all categories"
@@ -56,7 +55,7 @@ public class CategoryController {
         return categoryService.findAll(pageable);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(
             summary = "Get category by id",
             description = "Gives category with id"
@@ -67,7 +66,7 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Update Category by id",
             description = "Updates category with id"
@@ -80,7 +79,7 @@ public class CategoryController {
         return categoryService.update(id, categoryDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "delete category by id",
             description = "Deletes category with id"
@@ -91,7 +90,7 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('USER')")
     @Operation(
             summary = "Get books by category id",
             description = "Get all books by category"

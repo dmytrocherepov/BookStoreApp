@@ -38,6 +38,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(bookRepository.save(book));
     }
 
+    @Transactional
     @Override
     public List<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable).stream()
@@ -58,6 +59,7 @@ public class BookServiceImpl implements BookService {
     public BookDto updateBookById(CreateBookRequestDto requestDto, Long id) {
         Book book = bookMapper.toBook(requestDto);
         book.setId(id);
+        setCategories(requestDto,book);
         return bookMapper.toDto(bookRepository.save(book));
     }
 

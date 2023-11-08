@@ -2,7 +2,6 @@ package com.example.bookstoreapp.service.impl;
 
 import com.example.bookstoreapp.dto.category.CategoryRequestDto;
 import com.example.bookstoreapp.dto.category.CategoryResponseDto;
-import com.example.bookstoreapp.exception.CategoryException;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.mapper.CategoryMapper;
 import com.example.bookstoreapp.model.Category;
@@ -37,9 +36,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto save(CategoryRequestDto categoryDto) {
         Category entity = categoryMapper.toEntity(categoryDto);
-        if (categoryRepository.existsByName(categoryDto.name())) {
-            throw new CategoryException("Category already exists");
-        }
         return categoryMapper.toDto(categoryRepository.save(entity));
     }
 
