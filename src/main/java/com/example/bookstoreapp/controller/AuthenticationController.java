@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "User authorization/registration",
-        description = "Endpoints for user registration and authorization")
+        description = "Endpoint for user registration and authorization")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
