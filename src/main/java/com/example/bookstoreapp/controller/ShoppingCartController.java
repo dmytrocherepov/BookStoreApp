@@ -1,9 +1,9 @@
 package com.example.bookstoreapp.controller;
 
-import com.example.bookstoreapp.dto.shoppingcart.CartDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemRequestDto;
-import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateRequestDto;
+import com.example.bookstoreapp.dto.shoppingcart.ShoppingCartDto;
 import com.example.bookstoreapp.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping Cart management", description = "Endpoints for managing shopping carts")
 @RestController
+@Validated
 @RequestMapping("/cart")
 @RequiredArgsConstructor
 public class ShoppingCartController {
@@ -33,7 +35,7 @@ public class ShoppingCartController {
             description = "Gets user cart"
     )
     @GetMapping
-    public CartDto getUserCart() {
+    public ShoppingCartDto getUserCart() {
         return shoppingCartService.getCart();
     }
 
@@ -54,7 +56,7 @@ public class ShoppingCartController {
     )
     @PutMapping("/cart-items/{id}")
     public CartItemDto updateCartItem(
-            @RequestBody @Valid CartItemUpdateDto requestDto,
+            @RequestBody @Valid CartItemUpdateRequestDto requestDto,
             @PathVariable @Positive Long id) {
         return shoppingCartService.updateCartItem(requestDto, id);
     }

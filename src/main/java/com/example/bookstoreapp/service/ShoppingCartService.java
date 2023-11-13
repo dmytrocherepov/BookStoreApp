@@ -1,18 +1,16 @@
 package com.example.bookstoreapp.service;
 
-import com.example.bookstoreapp.dto.shoppingcart.CartDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemRequestDto;
-import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateDto;
-import org.springframework.stereotype.Service;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateRequestDto;
+import com.example.bookstoreapp.dto.shoppingcart.ShoppingCartDto;
 
-@Service
 public interface ShoppingCartService {
-    CartDto getCart();
+    ShoppingCartDto getCart();
 
     CartItemDto addCartItem(CartItemRequestDto requestDto);
 
-    CartItemDto updateCartItem(CartItemUpdateDto requestDto, Long itemId);
+    CartItemDto updateCartItem(CartItemUpdateRequestDto requestDto, Long itemId);
 
     void deleteCartItem(Long id);
 }

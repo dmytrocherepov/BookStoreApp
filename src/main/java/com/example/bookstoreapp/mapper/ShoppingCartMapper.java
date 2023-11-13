@@ -1,6 +1,6 @@
 package com.example.bookstoreapp.mapper;
 
-import com.example.bookstoreapp.dto.shoppingcart.CartDto;
+import com.example.bookstoreapp.dto.shoppingcart.ShoppingCartDto;
 import com.example.bookstoreapp.model.ShoppingCart;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -16,5 +16,5 @@ import org.mapstruct.NullValueCheckStrategy;
 )
 public interface ShoppingCartMapper {
     @Mapping(source = "user.id", target = "userId")
-    CartDto toDto(ShoppingCart shoppingCart);
+    ShoppingCartDto toDto(ShoppingCart shoppingCart);
 }

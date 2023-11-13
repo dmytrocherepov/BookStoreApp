@@ -1,12 +1,13 @@
 package com.example.bookstoreapp.service.impl;
 
-import com.example.bookstoreapp.dto.shoppingcart.CartDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemDto;
 import com.example.bookstoreapp.dto.shoppingcart.CartItemRequestDto;
-import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateDto;
+import com.example.bookstoreapp.dto.shoppingcart.CartItemUpdateRequestDto;
+import com.example.bookstoreapp.dto.shoppingcart.ShoppingCartDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.mapper.CartItemMapper;
 import com.example.bookstoreapp.mapper.ShoppingCartMapper;
+import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.model.CartItem;
 import com.example.bookstoreapp.model.ShoppingCart;
 import com.example.bookstoreapp.model.User;
@@ -33,7 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Transactional
     @Override
-    public CartDto getCart() {
+    public ShoppingCartDto getCart() {
         return shoppingCartMapper.toDto(getUserCart());
     }
 
@@ -41,9 +42,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public CartItemDto addCartItem(CartItemRequestDto requestDto) {
         CartItem cartItem = new CartItem();
         cartItem.setQuantity(requestDto.quantity());
-        cartItem.setBook(bookRepository.findById(requestDto.bookId()).orElseThrow(
+        Book book = bookRepository.findById(requestDto.bookId()).orElseThrow(
                 () -> new EntityNotFoundException("No such book")
-        ));
+        );
+        cartItem.setBook(book);
         ShoppingCart userCart = getUserCart();
         cartItem.setShoppingCart(userCart);
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
@@ -51,7 +53,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Transactional
     @Override
-    public CartItemDto updateCartItem(CartItemUpdateDto updateDto, Long itemId) {
+    public CartItemDto updateCartItem(CartItemUpdateRequestDto updateDto, Long itemId) {
         ShoppingCart userCart = getUserCart();
         CartItem cartItem = cartItemRepository
                 .findCartItemByIdAndShoppingCart(itemId, userCart)
@@ -60,6 +62,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
 
+    @Transactional
     @Override
     public void deleteCartItem(Long id) {
         cartItemRepository.deleteById(id);

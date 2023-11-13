@@ -1,5 +1,6 @@
 package com.example.bookstoreapp.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,6 @@ public class ShoppingCart {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @OneToMany(mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems;
 }
