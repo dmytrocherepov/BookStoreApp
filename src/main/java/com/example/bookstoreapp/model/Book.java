@@ -1,5 +1,6 @@
 package com.example.bookstoreapp.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -47,4 +49,6 @@ public class Book {
     private Set<Category> categories = new HashSet<>();
     @Column(nullable = false)
     private boolean isDeleted = false;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<CartItem> cartItems = new HashSet<>();
 }
