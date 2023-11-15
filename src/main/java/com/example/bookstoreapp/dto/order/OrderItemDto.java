@@ -1,4 +1,4 @@
-package com.example.bookstoreapp.dto.Order;
+package com.example.bookstoreapp.dto.order;
 
 public record OrderItemDto(
         Long id,

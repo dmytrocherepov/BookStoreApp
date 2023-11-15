@@ -28,7 +28,6 @@ public class ShoppingCart {
     private Set<CartItem> cartItems;
 
     public void clearCartItems() {
-        cartItems.forEach(cartItem -> cartItem.setShoppingCart(null));
         cartItems.clear();
     }
 }

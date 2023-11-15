@@ -1,21 +1,20 @@
 package com.example.bookstoreapp.service;
 
+import com.example.bookstoreapp.dto.order.OrderDto;
+import com.example.bookstoreapp.dto.order.OrderItemDto;
+import com.example.bookstoreapp.dto.order.OrderRequestDto;
+import com.example.bookstoreapp.dto.order.UpdateOrderStatusRequestDto;
 import java.util.List;
-import com.example.bookstoreapp.dto.Order.OrderDto;
-import com.example.bookstoreapp.dto.Order.OrderItemDto;
-import com.example.bookstoreapp.dto.Order.OrderRequestDto;
-import com.example.bookstoreapp.dto.Order.UpdateOrderStatusRequestDto;
+import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
     OrderDto addOrder(OrderRequestDto orderRequestDto);
 
-    List<OrderDto> getUserOrder();
+    List<OrderDto> getUserOrder(Pageable pageable);
 
-    OrderDto updateOrder(UpdateOrderStatusRequestDto requestDto);
+    OrderDto updateOrder(UpdateOrderStatusRequestDto requestDto, Long id);
 
-    OrderItemDto getOrderItems(Long id);
+    List<OrderItemDto> getAllOrderItems(Long id);
 
-    OrderItemDto getOrderItems(Long orderId , Long id);
-
-
+    OrderItemDto getOrderItemByOrderAndId(Long orderId, Long id);
 }
