@@ -1,5 +1,6 @@
 package com.example.bookstoreapp.exception;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -51,6 +52,15 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponseWrapper, CONFLICT);
+    }
+
+    @ExceptionHandler(ShoppingCartException.class)
+    protected ResponseEntity<Object> handleShoppingCartException(ShoppingCartException ex) {
+        ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseWrapper, BAD_REQUEST);
     }
 
     private String getErrorMessage(ObjectError e) {

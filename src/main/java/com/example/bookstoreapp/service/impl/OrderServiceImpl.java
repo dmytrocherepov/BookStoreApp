@@ -1,10 +1,13 @@
 package com.example.bookstoreapp.service.impl;
 
+import static com.example.bookstoreapp.model.Order.Status.NEW;
+
 import com.example.bookstoreapp.dto.order.OrderDto;
 import com.example.bookstoreapp.dto.order.OrderItemDto;
 import com.example.bookstoreapp.dto.order.OrderRequestDto;
 import com.example.bookstoreapp.dto.order.UpdateOrderStatusRequestDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
+import com.example.bookstoreapp.exception.ShoppingCartException;
 import com.example.bookstoreapp.mapper.OrderItemMapper;
 import com.example.bookstoreapp.mapper.OrderMapper;
 import com.example.bookstoreapp.model.CartItem;
@@ -47,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         User user = getUser();
         ShoppingCart userShoppingCart = findUserShoppingCart();
         if (userShoppingCart.getCartItems().isEmpty()) {
-            throw new EntityNotFoundException("Cart is empty");
+            throw new ShoppingCartException("Cart is empty");
         }
         Order order = createOrder(user, orderRequestDto);
         order.setOrderItems(setOrderItems(order, userShoppingCart.getCartItems()));
@@ -84,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderItemDto getOrderItemByOrderAndId(Long orderId, Long id) {
         OrderItem orderItem = itemRepository.findByIdAndOrderId(orderId, id).orElseThrow(
-                () -> new EntityNotFoundException("No such order with id" + id)
+                () -> new EntityNotFoundException("No such order item with id" + id)
         );
         return orderItemMapper.toDto(orderItem);
     }
@@ -98,9 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
     private ShoppingCart findUserShoppingCart() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(name).orElseThrow(
-                () -> new EntityNotFoundException("No such user")
-        );
+        User user = getUser();
         return cartRepository.findShoppingCartByUserId(user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("No such cart with user Id")
         );
@@ -111,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setUser(user);
         order.setShippingAddress(requestDto.shippingAddress());
-        order.setStatus(Order.Status.NEW);
+        order.setStatus(NEW);
         order.setTotal(BigDecimal.ZERO);
         return orderRepository.save(order);
     }
