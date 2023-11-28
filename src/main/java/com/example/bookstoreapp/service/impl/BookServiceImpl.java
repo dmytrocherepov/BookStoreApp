@@ -12,7 +12,6 @@ import com.example.bookstoreapp.repository.book.BookRepository;
 import com.example.bookstoreapp.repository.book.BookSpecificationBuilder;
 import com.example.bookstoreapp.repository.category.CategoryRepository;
 import com.example.bookstoreapp.service.BookService;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
@@ -40,7 +40,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
+        return bookRepository.findAll(pageable)
+                .stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -87,7 +88,7 @@ public class BookServiceImpl implements BookService {
 
 
     private void setCategories(CreateBookRequestDto requestDto, Book book) {
-        Set<Category> categories = requestDto.categoryIds().stream()
+        Set<Category> categories = requestDto.categoriesIds().stream()
                 .map(categoryRepository::getReferenceById)
                 .collect(Collectors.toSet());
         book.setCategories(categories);

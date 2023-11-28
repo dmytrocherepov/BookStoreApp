@@ -23,7 +23,7 @@ public record CreateBookRequestDto(
         String description,
         String coverImage,
         @NotNull
-        List<Long> categoryIds
+        List<Long> categoriesIds
 ) {
 }
 
