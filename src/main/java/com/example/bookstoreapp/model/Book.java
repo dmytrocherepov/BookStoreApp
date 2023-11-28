@@ -3,6 +3,7 @@ package com.example.bookstoreapp.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +15,8 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -22,7 +24,8 @@ import org.hibernate.annotations.Where;
 @SQLDelete(sql = "UPDATE books SET is_deleted = true where id = ?")
 @Where(clause = "is_deleted = false")
 @Table(name = "books")
-@Data
+@Getter
+@Setter
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +41,7 @@ public class Book {
     private String description;
     private String coverImage;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_categories",
             joinColumns = @JoinColumn(name = "book_id"),
