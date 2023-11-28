@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -30,7 +31,6 @@ public class BookServiceImpl implements BookService {
     private final BookSpecificationBuilder bookSpecificationBuilder;
     private final CategoryRepository categoryRepository;
 
-    @Transactional
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toBook(requestDto);
@@ -56,6 +56,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateBookById(CreateBookRequestDto requestDto, Long id) {
+        bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("No such book with id: " + id)
+        );
         Book book = bookMapper.toBook(requestDto);
         book.setId(id);
         return bookMapper.toDto(bookRepository.save(book));
@@ -81,6 +84,7 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
+
 
     private void setCategories(CreateBookRequestDto requestDto, Book book) {
         Set<Category> categories = requestDto.categoryIds().stream()

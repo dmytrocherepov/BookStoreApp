@@ -18,6 +18,8 @@ import com.example.bookstoreapp.repository.book.BookSpecificationBuilder;
 import com.example.bookstoreapp.repository.category.CategoryRepository;
 import com.example.bookstoreapp.service.impl.BookServiceImpl;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -33,11 +35,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class BookServiceTest {
 
     @Mock
-    private  BookRepository bookRepository;
+    private BookRepository bookRepository;
     @Spy
-    private  BookMapper bookMapper = new BookMapperImpl();
+    private BookMapper bookMapper = new BookMapperImpl();
     @Mock
-    private  CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
     @InjectMocks
     private BookServiceImpl bookService;
 
@@ -57,11 +59,11 @@ public class BookServiceTest {
         BookDto bookDto = bookService.getById(id);
 
         assertThat(bookDto)
-                .hasFieldOrPropertyWithValue("id" , id)
-                .hasFieldOrPropertyWithValue("title" , "CheckTitle")
-                .hasFieldOrPropertyWithValue("isbn" , "1234567890")
-                .hasFieldOrPropertyWithValue("description" , "TestBook")
-                .hasFieldOrPropertyWithValue("price" , BigDecimal.ZERO);
+                .hasFieldOrPropertyWithValue("id", id)
+                .hasFieldOrPropertyWithValue("title", "CheckTitle")
+                .hasFieldOrPropertyWithValue("isbn", "1234567890")
+                .hasFieldOrPropertyWithValue("description", "TestBook")
+                .hasFieldOrPropertyWithValue("price", BigDecimal.ZERO);
 
     }
 
@@ -73,7 +75,7 @@ public class BookServiceTest {
 
         assertThatThrownBy(() -> bookService.getById(id))
                 .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("Can't get book with id "+ id);
+                .hasMessage("Can't get book with id " + id);
     }
 
     @Test
@@ -85,7 +87,7 @@ public class BookServiceTest {
                 BigDecimal.valueOf(10),
                 "TestDescription",
                 null,
-                List.of(1L,2L)
+                List.of(1L, 2L)
         );
 
         Category category = new Category();
@@ -100,26 +102,26 @@ public class BookServiceTest {
         book.setDescription(requestDto.description());
         book.setPrice(requestDto.price());
         book.setCoverImage(requestDto.coverImage());
-        book.setCategories(Set.of(category,category1));
+        book.setCategories(Set.of(category, category1));
 
-        when(categoryRepository.getReferenceById(anyLong())).thenReturn(category,category1);
+        when(categoryRepository.getReferenceById(anyLong())).thenReturn(category, category1);
         when(bookRepository.save(book)).thenReturn(book);
 
         BookDto bookDto = bookService.save(requestDto);
 
         assertThat(bookDto)
-                .hasFieldOrPropertyWithValue("title" , "TestTitle")
-                .hasFieldOrPropertyWithValue( "author", "TestAuthor")
-                .hasFieldOrPropertyWithValue("price" , BigDecimal.valueOf(10))
-                .hasFieldOrPropertyWithValue("isbn" , "1234567890")
-                .hasFieldOrPropertyWithValue("description" , "TestDescription")
-                .hasFieldOrPropertyWithValue("coverImage" , null)
-                .hasFieldOrPropertyWithValue("categoriesIds" , List.of(1L,2L));
+                .hasFieldOrPropertyWithValue("title", "TestTitle")
+                .hasFieldOrPropertyWithValue("author", "TestAuthor")
+                .hasFieldOrPropertyWithValue("price", BigDecimal.valueOf(10))
+                .hasFieldOrPropertyWithValue("isbn", "1234567890")
+                .hasFieldOrPropertyWithValue("description", "TestDescription")
+                .hasFieldOrPropertyWithValue("coverImage", null)
+                .hasFieldOrPropertyWithValue("categoriesIds", List.of(1L, 2L));
     }
 
     @Test
     void deleteById_ValidId_ShouldDeleteBook() {
-        Long id  = 1L;
+        Long id = 1L;
 
         when(bookRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(bookRepository).deleteById(anyLong());
@@ -137,6 +139,39 @@ public class BookServiceTest {
     }
 
     @Test
-    void name() {
+    void updateBookById_ExistingBook_ShouldReturnBookDto() {
+        Long id = 1L;
+
+        CreateBookRequestDto request = new CreateBookRequestDto(
+                "TestTitle",
+                "TestAuthor",
+                "1234567890",
+                BigDecimal.valueOf(10),
+                null,
+                null,
+                Collections.emptyList()
+        );
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("wow");
+
+        Book book = new Book();
+        book.setId(1L);
+        book.setAuthor(request.author());
+        book.setTitle(request.title());
+        book.setPrice(request.price());
+        book.setIsbn(request.isbn());
+
+        when(bookRepository.save(book)).thenReturn(book);
+
+        BookDto bookDto = bookService.updateBookById(request, id);
+
+        assertThat(bookDto)
+                .hasFieldOrPropertyWithValue("title" , "TestTitle")
+                .hasFieldOrPropertyWithValue("author" , "TestAuthor")
+                .hasFieldOrPropertyWithValue("isbn" , "1234567890")
+                .hasFieldOrPropertyWithValue("price" , BigDecimal.valueOf(10))
+                .hasFieldOrPropertyWithValue("categoriesIds" , Collections.emptyList());
     }
 }
