@@ -63,6 +63,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
+        isBookExistById(id);
         bookRepository.deleteById(id);
     }
 
@@ -86,5 +87,11 @@ public class BookServiceImpl implements BookService {
                 .map(categoryRepository::getReferenceById)
                 .collect(Collectors.toSet());
         book.setCategories(categories);
+    }
+
+    private void isBookExistById(Long id) {
+        if (!bookRepository.existsById(id)) {
+            throw new EntityNotFoundException("No such book with id: " + id);
+        }
     }
 }
