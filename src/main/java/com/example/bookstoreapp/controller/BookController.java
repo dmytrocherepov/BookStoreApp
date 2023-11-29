@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@Validated
 @Tag(name = "Book management ", description = "Endpoints for managing books")
 @RestController
 @RequestMapping("/books")
@@ -75,7 +73,7 @@ public class BookController {
     )
     public BookDto updateBookById(
             @RequestBody @Valid CreateBookRequestDto requestDto,
-            @PathVariable @Positive Long id
+            @PathVariable Long id
     ) {
         return bookService.updateBookById(requestDto, id);
     }
@@ -100,7 +98,7 @@ public class BookController {
             summary = "Delete a book",
             description = "Deletes a book with id if present"
     )
-    void deleteById(@PathVariable @Positive Long id) {
+    void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 }
