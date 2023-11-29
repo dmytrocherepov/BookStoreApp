@@ -65,7 +65,7 @@ public class CategoryController {
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public CategoryResponseDto getCategoryById(@PathVariable @Positive Long id) {
+    public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
@@ -77,7 +77,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public CategoryResponseDto updateCategory(
-            @PathVariable @Positive Long id,
+            @PathVariable Long id,
             @Valid @RequestBody CategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
