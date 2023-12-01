@@ -7,6 +7,7 @@ import com.example.bookstoreapp.dto.order.OrderItemDto;
 import com.example.bookstoreapp.dto.order.OrderRequestDto;
 import com.example.bookstoreapp.dto.order.UpdateOrderStatusRequestDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
+import com.example.bookstoreapp.exception.OrderCreatingException;
 import com.example.bookstoreapp.exception.ShoppingCartException;
 import com.example.bookstoreapp.mapper.OrderItemMapper;
 import com.example.bookstoreapp.mapper.OrderMapper;
@@ -50,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
         User user = getUser();
         ShoppingCart userShoppingCart = findUserShoppingCart();
         if (userShoppingCart.getCartItems().isEmpty()) {
-            throw new ShoppingCartException("Cart is empty");
+            throw new OrderCreatingException("Cart is empty");
         }
         Order order = createOrder(user, orderRequestDto);
         order.setOrderItems(setOrderItems(order, userShoppingCart.getCartItems()));

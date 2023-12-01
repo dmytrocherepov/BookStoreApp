@@ -63,6 +63,15 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(errorResponseWrapper, BAD_REQUEST);
     }
 
+    @ExceptionHandler(ShoppingCartException.class)
+    protected ResponseEntity<Object> handleOrderCreatingException(OrderCreatingException ex) {
+        ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponseWrapper, BAD_REQUEST);
+    }
+
     private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError) {
             String field = ((FieldError) e).getField();
