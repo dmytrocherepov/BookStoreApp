@@ -8,7 +8,6 @@ import com.example.bookstoreapp.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +61,7 @@ public class CategoryController {
     )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public CategoryResponseDto getCategoryById(@Positive @PathVariable Long id) {
+    public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
@@ -74,7 +73,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
     public CategoryResponseDto updateCategory(
-            @PathVariable @Positive Long id,
+            @PathVariable Long id,
             @Valid @RequestBody CategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
@@ -86,7 +85,7 @@ public class CategoryController {
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable @Positive Long id) {
+    public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteById(id);
     }
 
@@ -98,7 +97,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}/books")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(
-            @PathVariable @Positive Long id,
+            @PathVariable Long id,
             @PageableDefault(size = 5) Pageable pageable) {
         return bookService.findBooksByCategory(pageable, id);
     }

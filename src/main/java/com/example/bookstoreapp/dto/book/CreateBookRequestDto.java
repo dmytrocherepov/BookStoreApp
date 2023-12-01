@@ -18,7 +18,7 @@ public record CreateBookRequestDto(
         @Pattern(regexp = "^(?:ISBN(?:-10)?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+"
                 + "[- ]){3})[- 0-9X]{13}$)[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+"
                 + "[- ]?[0-9X]$",
-        message = "length must be 10 digits")
+                message = "length must be 10 digits")
         String isbn,
         @NotNull
         BigDecimal price,
