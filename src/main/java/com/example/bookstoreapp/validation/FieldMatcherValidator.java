@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanWrapperImpl;
 
 @RequiredArgsConstructor
-public class FieldMatcherValidator implements ConstraintValidator<FieldMatch,Object> {
+public class FieldMatcherValidator implements ConstraintValidator<FieldMatch, Object> {
     private String field;
     private String fieldMatch;
 
