@@ -63,7 +63,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(errorResponseWrapper, BAD_REQUEST);
     }
 
-    @ExceptionHandler(ShoppingCartException.class)
+    @ExceptionHandler(OrderCreatingException.class)
     protected ResponseEntity<Object> handleOrderCreatingException(OrderCreatingException ex) {
         ErrorResponseWrapper errorResponseWrapper = new ErrorResponseWrapper(
                 ex.getMessage(),
