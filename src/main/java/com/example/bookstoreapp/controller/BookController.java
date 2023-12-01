@@ -7,7 +7,6 @@ import com.example.bookstoreapp.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -73,7 +72,7 @@ public class BookController {
     )
     public BookDto updateBookById(
             @RequestBody @Valid CreateBookRequestDto requestDto,
-            @PathVariable @Positive Long id
+            @PathVariable Long id
     ) {
         return bookService.updateBookById(requestDto, id);
     }
@@ -98,7 +97,7 @@ public class BookController {
             summary = "Delete a book",
             description = "Deletes a book with id if present"
     )
-    void deleteById(@PathVariable @Positive Long id) {
+    void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 }
