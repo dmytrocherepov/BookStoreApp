@@ -8,7 +8,6 @@ import com.example.bookstoreapp.dto.order.OrderRequestDto;
 import com.example.bookstoreapp.dto.order.UpdateOrderStatusRequestDto;
 import com.example.bookstoreapp.exception.EntityNotFoundException;
 import com.example.bookstoreapp.exception.OrderCreatingException;
-import com.example.bookstoreapp.exception.ShoppingCartException;
 import com.example.bookstoreapp.mapper.OrderItemMapper;
 import com.example.bookstoreapp.mapper.OrderMapper;
 import com.example.bookstoreapp.model.CartItem;
