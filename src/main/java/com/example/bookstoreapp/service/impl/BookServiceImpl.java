@@ -61,6 +61,7 @@ public class BookServiceImpl implements BookService {
                 () -> new EntityNotFoundException("No such book with id: " + id)
         );
         Book book = bookMapper.toBook(requestDto);
+        setCategories(requestDto, book);
         book.setId(id);
         return bookMapper.toDto(bookRepository.save(book));
     }
