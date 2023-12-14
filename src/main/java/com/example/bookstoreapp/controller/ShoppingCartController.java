@@ -65,7 +65,7 @@ public class ShoppingCartController {
             description = "Deletes cart item"
     )
     @DeleteMapping("/cart-items/{id}")
-    public void deleteCartItem(@PathVariable @Positive Long id) {
+    public void deleteCartItem(@PathVariable Long id) {
         shoppingCartService.deleteCartItem(id);
     }
 }
