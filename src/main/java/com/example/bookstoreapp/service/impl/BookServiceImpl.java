@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
@@ -41,7 +42,8 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public List<BookDto> findAll(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream()
+        return bookRepository.findAll(pageable)
+                .stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
