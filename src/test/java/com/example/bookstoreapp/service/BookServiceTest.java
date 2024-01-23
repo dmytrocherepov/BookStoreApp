@@ -146,15 +146,7 @@ public class BookServiceTest {
     @Description("Updates a book with non existing id")
     void updateById_invalidId_ShouldThrowException() {
         Long id = -1L;
-        CreateBookRequestDto requestDto = new CreateBookRequestDto(
-                "checkTitle",
-                "checkAuthor",
-                "1234567890",
-                BigDecimal.valueOf(10),
-                null,
-                null,
-                List.of(1L)
-        );
+        CreateBookRequestDto requestDto = getDefaultRequestDto();
         when(bookRepository.existsById(id)).thenReturn(false);
 
         assertThatThrownBy(() -> bookService.updateBookById(requestDto, id))
