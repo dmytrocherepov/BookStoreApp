@@ -8,7 +8,6 @@ import java.util.List;
 import org.hibernate.validator.constraints.Length;
 
 public record CreateBookRequestDto(
-        Long id,
         @NotBlank @Length(max = 50)
         String title,
         @NotBlank @Length(max = 50)
@@ -24,7 +23,7 @@ public record CreateBookRequestDto(
         String description,
         String coverImage,
         @NotNull
-        List<Long> categoryIds
+        List<Long> categoriesIds
 ) {
 }
 

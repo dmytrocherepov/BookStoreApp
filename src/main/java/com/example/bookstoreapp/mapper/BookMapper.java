@@ -23,7 +23,7 @@ public interface BookMapper {
         bookDto.setCategoriesIds(book.getCategories()
                 .stream()
                 .map(Category::getId)
-                .toList());
-
+                .toList()
+        );
     }
 }
